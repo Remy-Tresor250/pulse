@@ -15,7 +15,7 @@ class PostItem extends StatelessWidget {
 
         const Row(
           children: [
-            UserAvatar(),
+            UserAvatar(size: 40,),
 
             SizedBox(
               width: 10,

@@ -74,6 +74,7 @@ class BottomNavigator extends StatelessWidget {
               left: 0,
               right: 0,
               child: GestureDetector(
+                onTap: () => onTap(MainMenus.addPost),
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   width: 64,

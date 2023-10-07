@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pulse/pages/login_page.dart';
 import 'package:pulse/pages/main_page.dart';
 import 'package:pulse/pages/notifications.dart';
+import 'package:pulse/pages/profile.dart';
 import 'package:pulse/pages/signup_page.dart';
 
 void main() {
@@ -25,6 +26,7 @@ class Pulse extends StatelessWidget {
         "/sign-up": (context) => const SignUp(),
         "/home": (context) => const MainPage(),
         "/notifications": (context) => const Notifications(),
+        "/profile": (context) => Profile(),
       },
     );
   }

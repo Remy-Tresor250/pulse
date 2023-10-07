@@ -9,7 +9,7 @@ class StoryItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(3),
       decoration: const BoxDecoration(
-        color: AppColors.veryLightGreen,
+        color: AppColors.veryLightBlue,
         borderRadius: BorderRadius.all(Radius.circular(60))
       ),
       child: ClipRRect(

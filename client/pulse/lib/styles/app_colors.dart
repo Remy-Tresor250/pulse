@@ -7,4 +7,5 @@ class AppColors {
   static const veryLightBlue = Color(0xff56acff);
   static const veryLightGreen = Color(0xff21f7ff);
   static const mediumGrey = Color(0xffeaeaea);
+  static const mediumGreen = Color(0xff0fc072);
 }

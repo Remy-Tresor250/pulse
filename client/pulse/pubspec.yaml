@@ -42,6 +42,9 @@ dependencies:
   image_picker: ^1.0.2
   image_cropper: ^5.0.0
   web_socket_channel: ^2.4.0
+  cached_network_image: ^3.3.0
+  flutter_webrtc: ^0.9.45
+  video_player: ^2.7.2
 
 dev_dependencies:
   flutter_test:

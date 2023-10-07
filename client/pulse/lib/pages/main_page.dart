@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:pulse/components/bottom_navigator.dart";
+import "package:pulse/components/new_post_modal.dart";
 import "package:pulse/pages/chats.dart";
 import "package:pulse/pages/home_page.dart";
 
@@ -22,6 +23,17 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: BottomNavigator(
         currentPage: currentPage,
         onTap: (MainMenus value) {
+          if(value == MainMenus.addPost) {
+            showModalBottomSheet(
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                context: context,
+                builder: (context) {
+                  return const NewPostModal();
+                }
+            );
+            return;
+          }
           setState(() {
             currentPage = value;
           });
