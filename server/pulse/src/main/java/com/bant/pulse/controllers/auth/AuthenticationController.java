@@ -20,11 +20,13 @@ public class AuthenticationController {
     private final UserService userService;
 
     @PostMapping("/sign-up")
-    public ResponseEntity<String> createUser ( @RequestBody RegisterRequest user) {
+    public ResponseEntity<Map<String, String>> createUser ( @RequestBody RegisterRequest user) {
         try{
             return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
         } catch (Exception error) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Operation failed");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new HashMap<>(){{
+                put("message", "Operation failed!");
+            }});
         }
     }
 
@@ -33,9 +35,7 @@ public class AuthenticationController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(userService.authenticate(requestData));
         } catch (Exception error) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new HashMap<>(){{
-                put("message", "User not found");
-            }});
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "Incorrect email or password"));
         }
     }
 

@@ -6,6 +6,10 @@ import com.bant.pulse.modal.user.User;
 import com.bant.pulse.modal.user.UserRepository;
 import com.bant.pulse.service.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,8 +24,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
-    public String createUser(RegisterRequest user){
+    public Map<String, String> createUser(RegisterRequest user){
         User newUser = User.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
@@ -31,24 +36,39 @@ public class UserService {
                 .password(passwordEncoder.encode(user.getPassword()))
                 .build();
         userRepository.save(newUser);
-        return "Successful operation!";
+        return new HashMap<>(){{
+            put("message", "Successful Operation!");
+        }};
     }
 
     public Map<String, String> authenticate (AuthenticateRequest requestData) {
         final String username = requestData.getUsername();
         final String password = requestData.getPassword();
 
-        final User user = userRepository.findByPhone(username).orElseGet(
-                () -> userRepository.findByEmail(username).orElseThrow(
-                        () -> new UsernameNotFoundException("Username with " + username + " is not found!")
-                )
-        );
+        try{
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            username,
+                            password
+                    )
+            );
 
-        final String token = jwtService.generateUserToken(user);
+            final User user = userRepository.findByPhone(username).orElseGet(
+                    () -> userRepository.findByEmail(username).orElseThrow(
+                            () -> new UsernameNotFoundException("Incorrect email or password!")
+                    )
+            );
 
-        return new HashMap<>(){{
-            put("token", token);
-        }};
+            if(passwordEncoder.matches(password, user.getPassword())) {
+                final String token = jwtService.generateUserToken(user);
+
+                return Map.of("token", token);
+            } else {
+                throw new UsernameNotFoundException("Incorrect email or password!");
+            }
+        }catch (AuthenticationException error) {
+            throw new BadCredentialsException("Incorrect email or password!", error);
+        }
     }
 
 }
