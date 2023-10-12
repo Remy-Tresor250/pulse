@@ -1,5 +1,8 @@
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 import "package:pulse/components/user_avatar.dart";
+import "package:pulse/model/user.dart";
+import "package:pulse/provider/app_repo.dart";
 
 import "../styles/app_colors.dart";
 
@@ -14,7 +17,8 @@ class _ProfileState extends State<Profile> {
   late final TextEditingController _firstName;
   late final TextEditingController _lastName;
   late final TextEditingController _email;
-  late final TextEditingController _location;
+  late final TextEditingController _country;
+  late final TextEditingController _city;
   late final TextEditingController _phone;
 
   @override
@@ -22,7 +26,8 @@ class _ProfileState extends State<Profile> {
     _firstName = TextEditingController();
     _lastName = TextEditingController();
     _email = TextEditingController();
-    _location = TextEditingController();
+    _country = TextEditingController();
+    _city = TextEditingController();
     _phone = TextEditingController();
     super.initState();
   }
@@ -32,18 +37,22 @@ class _ProfileState extends State<Profile> {
     _firstName.dispose();
     _lastName.dispose();
     _email.dispose();
-    _location.dispose();
+    _country.dispose();
+    _city.dispose();
     _phone.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _firstName.text = "Remy Tresor";
-    _lastName.text = "NIYITEGEKA";
-    _email.text = "remytresor@gmail.com";
-    _location.text = "Nyarugenge, Muhima";
-    _phone.text = "+250785279830";
+    final User? user = context.read<AppRepo>().user;
+
+    _firstName.text = user!.firstName;
+    _lastName.text = user.lastName;
+    _email.text = user.email;
+    _country.text = user.location.split(",")[0];
+    _city.text = "${user.location.split(",")[1]}, ${user.location.split(",")[2]}";
+    _phone.text = user.phone;
 
     return Scaffold(
       appBar: AppBar(
@@ -73,7 +82,7 @@ class _ProfileState extends State<Profile> {
       SingleChildScrollView(
         child: Container(
           width: double.infinity,
-          height: MediaQuery.of(context).size.height - 70,
+          height: MediaQuery.of(context).size.height,
           padding: const EdgeInsets.all(24),
           child: Column(
             children: [
@@ -149,6 +158,26 @@ class _ProfileState extends State<Profile> {
               ),
 
               TextField(
+                controller: _phone,
+                decoration: const InputDecoration(
+                    hintText: "Phone number",
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: AppColors.lightBlack),
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    )
+                ),
+              ),
+
+              const SizedBox(
+                height: 20,
+              ),
+
+              TextField(
                 controller: _email,
                 decoration: const InputDecoration(
                     hintText: "Email",
@@ -169,9 +198,9 @@ class _ProfileState extends State<Profile> {
               ),
 
               TextField(
-                controller: _location,
+                controller: _country,
                 decoration: const InputDecoration(
-                    hintText: "Last name",
+                    hintText: "Country",
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -189,9 +218,9 @@ class _ProfileState extends State<Profile> {
               ),
 
               TextField(
-                controller: _phone,
+                controller: _city,
                 decoration: const InputDecoration(
-                    hintText: "Last name",
+                    hintText: "City or Town",
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(

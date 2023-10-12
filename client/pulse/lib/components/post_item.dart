@@ -1,5 +1,8 @@
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 import "package:pulse/components/user_avatar.dart";
+import "package:pulse/model/user.dart";
+import "package:pulse/provider/app_repo.dart";
 import "package:pulse/styles/app_text.dart";
 
 class PostItem extends StatelessWidget {
@@ -7,22 +10,24 @@ class PostItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final User? user = context.read<AppRepo>().user;
+
     return Column(
       children: [
         const SizedBox(
           height: 10,
         ),
 
-        const Row(
+        Row(
           children: [
-            UserAvatar(size: 40,),
+            const UserAvatar(size: 40,),
 
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
 
             Text(
-              "Remy Tresor",
+              "${user?.firstName} ${user?.lastName}",
               style: AppText.subtitle1,
             ),
           ],

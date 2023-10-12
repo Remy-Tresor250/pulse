@@ -45,6 +45,9 @@ dependencies:
   cached_network_image: ^3.3.0
   flutter_webrtc: ^0.9.45
   video_player: ^2.7.2
+  flutter_dotenv: ^5.1.0
+  jwt_decode:
+  dio:
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +75,7 @@ flutter:
   assets:
      - assets/images/
      - assets/temp/
+     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
