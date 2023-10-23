@@ -33,6 +33,7 @@ class _LoginState extends State<Login> {
 
   final formKey = GlobalKey<FormState>();
   bool isViewPassword = false;
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -162,27 +163,59 @@ class _LoginState extends State<Login> {
                         SizedBox(
                           width: double.infinity,
                           height: 50,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                if(formKey.currentState!.validate()) {
-                                  context.read<LoginService>().login().then((value) => {
-                                  context.read<AppRepo>().user = User.fromToken(value),
-                                  Navigator.of(context).pushReplacementNamed("/home")
-                                  });
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.primary,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(8))
-                                  )
-                              ),
-                              child: const Text(
-                                "Sign in",
-                                style: TextStyle(
-                                    fontSize: 16
+                          child: Opacity(
+                            opacity: loading ? 0.5 : 1,
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  if(formKey.currentState!.validate()) {
+                                    setState(() {
+                                      loading = true;
+                                    });
+                                    context.read<LoginService>().login()
+                                        .then((value) => {
+                                          context.read<AppRepo>().user = User.fromToken(value),
+                                      Navigator.of(context).pushReplacementNamed("/home"),
+                                    }).catchError((error) {
+                                      setState(() {
+                                        loading = false;
+                                      });
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Container(
+                                                decoration: const BoxDecoration(
+                                                  color: Colors.redAccent,
+                                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                ),
+                                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                                                child: const Text("Incorrect Phone, Email or password!")
+                                            ),
+                                            duration: const Duration(seconds: 5),
+                                            behavior: SnackBarBehavior.floating,
+                                            backgroundColor: Colors.transparent,
+                                            elevation: 0,
+                                          )
+                                      );
+
+                                      throw Exception(error);
+                                    });
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primary,
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(8))
+                                    ),
                                 ),
-                              )
+                                child: !loading ? const Text(
+                                  "Sign in",
+                                  style: TextStyle(
+                                      fontSize: 16
+                                  ),
+                                ) : const CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                            ),
                           ),
                         ),
                       ],

@@ -13,7 +13,8 @@ class CallItem extends StatelessWidget {
        Row(
          children: [
            UserAvatar(
-               size: 40
+             size: 40,
+             url: "assets/temp/user1.png",
            ),
 
            SizedBox(
