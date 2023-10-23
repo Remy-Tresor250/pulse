@@ -51,7 +51,7 @@ class _ProfileState extends State<Profile> {
     _lastName.text = user.lastName;
     _email.text = user.email;
     _country.text = user.location.split(",")[0];
-    _city.text = "${user.location.split(",")[1]}, ${user.location.split(",")[2]}";
+    _city.text = user.location.split(",")[1];
     _phone.text = user.phone;
 
     return Scaffold(
@@ -92,7 +92,7 @@ class _ProfileState extends State<Profile> {
                   alignment: Alignment.center,
                   child: Stack(
                     children: [
-                      const UserAvatar(size: 150),
+                      const UserAvatar(size: 150, url: "assets/temp/user1.png",),
 
                       Positioned(
                         bottom: 0,

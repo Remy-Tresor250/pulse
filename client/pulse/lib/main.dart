@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:pulse/pages/login_page.dart';
 import 'package:pulse/pages/main_page.dart';
@@ -9,6 +10,7 @@ import 'package:pulse/pages/signup_page.dart';
 import 'package:pulse/provider/app_repo.dart';
 import 'package:pulse/service/login_service.dart';
 import 'package:pulse/service/register_service.dart';
+import 'package:pulse/utlis/init_controllers.dart';
 
 Future<void> main() async {
   await dotenv.load();
@@ -26,7 +28,8 @@ class Pulse extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      initialBinding: InitControllers(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: "Inter",

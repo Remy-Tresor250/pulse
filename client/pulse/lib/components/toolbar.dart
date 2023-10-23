@@ -1,7 +1,13 @@
 import "package:flutter/material.dart";
-
-import "../pages/home_page.dart";
+import "package:provider/provider.dart";
+import "package:pulse/provider/app_repo.dart";
 import "../styles/app_colors.dart";
+
+enum Menus {
+  profile,
+  settings,
+  logout,
+}
 
 class Toolbar extends StatelessWidget implements PreferredSizeWidget {
   final bool leading;
@@ -34,7 +40,9 @@ class Toolbar extends StatelessWidget implements PreferredSizeWidget {
                 break;
 
               case Menus.logout:
+                context.read<AppRepo>().user = null;
                 Navigator.of(context).pushNamed("/");
+                break;
             }
           },
           itemBuilder: (context) {

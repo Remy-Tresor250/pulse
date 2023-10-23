@@ -28,7 +28,8 @@ class RegisterService extends ChangeNotifier {
           "location": "$country, $city",
           "email": email,
           "phone": phone,
-          "password": password
+          "password": password,
+          "profile": ""
         })
       ).then((res) => result = res.data).catchError((error) => throw Exception(error));
     } catch (error) {

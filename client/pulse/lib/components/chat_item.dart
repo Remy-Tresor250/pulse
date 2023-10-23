@@ -10,7 +10,7 @@ class ChatItem extends StatelessWidget {
     return GestureDetector(
       child: const Row(
         children: [
-          UserAvatar(size: 40,),
+          UserAvatar(size: 40, url: "assets/temp/user1.png",),
 
           SizedBox(
             width: 20,

@@ -4,12 +4,6 @@ import "package:pulse/components/stories.dart";
 import "package:pulse/components/toolbar.dart";
 import "package:pulse/styles/app_colors.dart";
 
-enum Menus {
-  profile, 
-  settings, 
-  logout,
-}
-
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -41,7 +35,11 @@ class HomePage extends StatelessWidget {
                  height: 8,
                ),
 
-               Posts()
+               Posts(),
+
+              SizedBox(
+                height: 40,
+              ),
             ],
           ),
         ),
