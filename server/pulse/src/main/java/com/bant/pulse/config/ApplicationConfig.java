@@ -1,6 +1,6 @@
 package com.bant.pulse.config;
 
-import com.bant.pulse.modal.user.UserRepository;
+import com.bant.pulse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,10 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User with username " + username + " is not found"));
+                .orElseGet(
+                        () -> userRepository.findByPhone(username)
+                                .orElseThrow(() -> new UsernameNotFoundException("User with username " + username + " is not found"))
+                );
     }
 
     @Bean
@@ -41,7 +44,7 @@ public class ApplicationConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(12);
     }
 
 }

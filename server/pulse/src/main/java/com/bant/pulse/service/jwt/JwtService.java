@@ -1,12 +1,13 @@
 package com.bant.pulse.service.jwt;
 
-import com.bant.pulse.modal.user.User;
+import com.bant.pulse.model.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,8 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtService {
 
-    private static final String JWT_PRIVATE_KEY = "cfzNH1wN9cATNsuszfO8TSmsCDeEO49IBEX9gWhAwzk";
+    @Value("${jwt.private_key}")
+    private String JWT_PRIVATE_KEY;
 
     public Key getSignInKey () {
         byte[] keyBytes = Decoders.BASE64.decode(JWT_PRIVATE_KEY);
@@ -62,6 +64,7 @@ public class JwtService {
             put("lastName", user.getLastName());
             put("email", user.getEmail());
             put("location", user.getLocation());
+            put("profile", user.getProfile());
             put("id", user.getId());
         }}, user);
     }

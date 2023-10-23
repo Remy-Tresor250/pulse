@@ -1,7 +1,6 @@
-package com.bant.pulse.modal.likes;
+package com.bant.pulse.model.likes;
 
-import com.bant.pulse.modal.post.Post;
-import com.bant.pulse.modal.user.User;
+import com.bant.pulse.model.user.User;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;

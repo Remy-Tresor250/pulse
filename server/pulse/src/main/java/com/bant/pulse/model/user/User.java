@@ -1,5 +1,7 @@
-package com.bant.pulse.modal.user;
+package com.bant.pulse.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -51,6 +53,10 @@ public class User implements UserDetails {
     private String location;
 
     @Column(nullable = false)
+    private String profile;
+
+    @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
 

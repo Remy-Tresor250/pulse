@@ -1,7 +1,7 @@
-package com.bant.pulse.modal.post;
+package com.bant.pulse.model.post;
 
-import com.bant.pulse.modal.likes.Like;
-import com.bant.pulse.modal.user.User;
+import com.bant.pulse.model.likes.Like;
+import com.bant.pulse.model.user.User;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -34,7 +34,7 @@ public class Post {
             name = "user_id",
             nullable = false
     )
-    private User userId;
+    private User user;
 
     private String postDescription;
     private String picturePath;
