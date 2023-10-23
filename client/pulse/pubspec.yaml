@@ -48,6 +48,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   jwt_decode:
   dio:
+  get:
 
 dev_dependencies:
   flutter_test:

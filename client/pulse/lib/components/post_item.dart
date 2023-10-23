@@ -1,18 +1,21 @@
+import "package:cached_network_image/cached_network_image.dart";
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-import "package:provider/provider.dart";
 import "package:pulse/components/user_avatar.dart";
-import "package:pulse/model/user.dart";
-import "package:pulse/provider/app_repo.dart";
+import "package:pulse/styles/app_colors.dart";
 import "package:pulse/styles/app_text.dart";
 
+import "../model/post.dart";
+
 class PostItem extends StatelessWidget {
-  const PostItem({super.key});
+  const PostItem({super.key, required this.post});
+
+  final Post post;
 
   @override
   Widget build(BuildContext context) {
-    final User? user = context.read<AppRepo>().user;
-
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(
           height: 10,
@@ -20,14 +23,14 @@ class PostItem extends StatelessWidget {
 
         Row(
           children: [
-            const UserAvatar(size: 40,),
+            UserAvatar(size: 40, url: post.user.profile.isEmpty ? "assets/temp/default.png" : post.user.profile),
 
             const SizedBox(
               width: 10,
             ),
 
             Text(
-              "${user?.firstName} ${user?.lastName}",
+              "${post.user.firstName} ${post.user.lastName}",
               style: AppText.subtitle1,
             ),
           ],
@@ -37,10 +40,28 @@ class PostItem extends StatelessWidget {
           height: 10,
         ),
 
-        ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          child: Image.asset(
-            "assets/temp/post1.jpg"
+        Align(
+          alignment: Alignment.center,
+          child: CachedNetworkImage(
+            imageUrl: post.picturePath,
+            imageBuilder: (context, imageProvider) => ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              child: Image(
+                image: imageProvider,
+              )
+            ),
+            placeholder: (context, url) => Container(
+              alignment: Alignment.center,
+              child: Container(
+                width: double.infinity,
+                height: 300,
+                decoration: const BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.all(Radius.circular(10))
+                ),
+              ),
+            ),
+            errorWidget: (context, url, error) => const Center(child: Text("Content failed to load!"),),
           ),
         ),
 
@@ -48,9 +69,52 @@ class PostItem extends StatelessWidget {
           height: 10,
         ),
         
-        const Text(
-          "🌴 Exploring the beauty of nature! 🌿✨ Serene moments by the beach, soaking up the sun, and feeling the sand between my toes. Life is a journey, and I'm taking each step with gratitude. 🌊☀️ #BeachLife #NatureLover #Wanderlust",
-          style: AppText.subtitle3,
+        Container(
+          margin: const EdgeInsets.only(left: 10),
+          child: Text(
+            post.description,
+            style: AppText.subtitle3,
+          ),
+        ),
+
+        const SizedBox(
+          height: 15,
+        ),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      CupertinoIcons.heart,
+                      color: AppColors.primary,
+                    )
+                ),
+
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.comment_outlined,
+                      color: AppColors.primary,
+                    )
+                )
+              ],
+            ),
+
+            Container(
+              margin: const EdgeInsets.only(right: 20),
+              child: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.share_outlined,
+                    color: AppColors.primary,
+                  )
+              ),
+            )
+          ],
         )
       ],
     );

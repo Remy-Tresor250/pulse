@@ -15,6 +15,7 @@ class Stories extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return const StoryItem();
           },
+
           separatorBuilder: (BuildContext context, int index) {
             return const SizedBox(
               width: 8,

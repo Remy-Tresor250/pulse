@@ -1,4 +1,7 @@
 import "package:flutter/material.dart";
+import "package:get/get.dart";
+import "package:image_picker/image_picker.dart";
+import 'package:pulse/controllers/create_post_service.dart';
 import "package:pulse/styles/app_colors.dart";
 
 class CustomImagePicker extends StatelessWidget {
@@ -7,12 +10,14 @@ class CustomImagePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PostService postService = Get.find();
+
     return SizedBox(
       width: double.infinity,
       height: 40,
       child: ElevatedButton(
           onPressed: () {
-            //implement image picking logic
+            postService.pickImage(ImageSource.gallery);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.primary

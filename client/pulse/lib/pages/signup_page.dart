@@ -112,17 +112,59 @@ class _SignUpState extends State<SignUp> {
                 currentStep += 1;
               }else {
                 if(_password.text != _confirmPswd.text){
-                  const SnackBar snackBar = SnackBar(
-                    content: Text("Passwords don't match!"),
-                    duration: Duration(seconds: 5),
+                  SnackBar snackBar = SnackBar(
+                    content: Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.redAccent,
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        child: const Text("Passwords don't match!")
+                    ),
+                    duration: const Duration(seconds: 5),
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
                   );
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   currentStep = 3;
                 }else {
                   context.read<RegisterService>().register()
                       .then((res) => {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.greenAccent,
+                                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                                  child: const Text("Your are successfully signed up!")
+                              ),
+                              duration: const Duration(seconds: 5),
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                            )
+                        ),
                     Navigator.of(context).pushReplacementNamed("/"),
                   }).catchError((error) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.redAccent,
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                              child: const Text("Something went wrong! please try again!")
+                          ),
+                          duration: const Duration(seconds: 5),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        )
+                    );
                     throw Exception(error);
                   });
                 }
